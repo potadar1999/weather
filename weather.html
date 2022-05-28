@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <div id="main">
+        <h1>Check Weather</h1>
+        <input type="text" placeholder="Enter the city" id="city"/>
+        <button id="btn" onclick="getData()">Search</button>
+        <div id="box"></div>
+    </div>
+  
+    <div id="head">
+    <div class="mapouter">
+        <div class="gmap_canvas">
+            <iframe width="600"
+             height="500"
+              id="gmap_canvas"  
+              frameborder="0"
+               scrolling="no" 
+               marginheight="0" 
+               marginwidth="0">
+            </iframe>
+               <!-- <a href="https://123movies-to.org"></a><br> -->
+               <!-- <style>.mapouter{position:relative;text-align:right;height:500px;width:600px;}</style>
+               <a href="https://www.embedgooglemap.net">embedgooglemap.net</a> -->
+                </div>
+            </div>
+               
+
+    </div>
+    
+
+</body>
+</html>
+
+            <style>
+                h1{
+                    color: red;
+                }
+              
+            .gmap_canvas {
+                overflow:hidden;
+                background:none!important;
+                height:400px;
+                /* width:500px; */
+                }
+
+                #head{
+                   /* display: grid;
+                   grid-template-columns: repeat(2, 1fr);
+                   gap: 20px; */
+                   display: flex;
+                   justify-content: space-around;
+                   margin: auto;
+                } 
+                #container{
+                    font-size: 20px;
+                    margin-left: -500px;
+                }
+                input{
+                    display: block;
+                    padding: 10px 30px 10px 30px;
+                    margin-bottom: 20px;
+                    margin-top: 20px;
+                   
+                }
+                #main{
+                   margin-left: 39%;
+
+                }
+                #btn{
+                    padding: 10px;
+                    margin-left: 70px;
+                    margin-bottom: 50px;
+                }
+                #btn:hover{
+                    color: red;
+                    cursor: pointer;
+                }
+             
+
+
+            </style>
+<script>
+var key="bc22cddb346f7e2511947a3f230b70b6"
+
+
+    async function getData(){
+
+       let city= document.querySelector("#city").value;
+
+
+      let url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`;
+    //  console.log(url);
+
+    let res = await fetch(url)
+
+    let data =await res.json();
+
+    append(data)
+    console.log(data)
+
+    }   
+
+function append(data){
+
+   var container=document.getElementById("container")
+   container.innerHTML=null;
+
+    var p1=document.createElement("p")
+    p1.innerText="City: "+data.name;
+
+    var p2=document.createElement("p")
+    p2.innerText="Temp: "+data.main.temp;
+
+    
+    var p3=document.createElement("p")
+    p3.innerText="Maximum Temp: "+data.main.temp_max;
+
+
+    var p4=document.createElement("p")
+    p4.innerText="Minimum Temp: "+data.main.temp_min;
+
+    var p5=document.createElement("p")
+    p5.innerText="Sunrise: "+data.sys.sunrise;
+
+    var p6=document.createElement("p")
+    p6.innerText="Sunset: "+data.sys.sunset;
+
+    container.append(p1,p2,p3,p4,p5,p6)
+    // console.log(container)
+
+    let iframe=document.getElementById("gmap_canvas")
+    iframe.src=`https://maps.google.com/maps?q=${data.name}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+
+}
+
+
+
+</script>
+
+
+
+<!-- Show min temp, max temp, wind, clounds, sunrise, sunset etc. -->
+
